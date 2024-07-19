@@ -1,40 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <main>
-      <fieldset>
-        <legend><h4>Sign up</h4></legend>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <main>
+    <fieldset>
+      <legend><h4>Sign up</h4></legend>
 
-        <form action="">
-          <b>
-            <label for="fname">First Name:</label>
-            <input id="fname" type="text" /><br /><br />
-            <label for="lname">Last Name:</label>
-            <input id="lname" type="text" /><br /><br />
-            <label for="email">Email:</label>
-            <input id="email" type="email" /><br /><br />
-            <label for="phonenumber">Phone No:</label>
-            <input id="phonenumber" type="tel" /><br /><br />
-            <label for="password">Password:</label>
-            <input id="password" type="password" /><br /><br />
-            <label for="sex">Sex:</label>
-            <input type="radio" id="male" name="sex" />
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="sex" />
-            <label for="female">Female</label>
-            <br /><br />
-            <label for="birth">Birth Date:</label>
-            <input id="birth" type="date" /><br /><br />
+      <form id="signupForm">
+        <b>
+          <label for="fname">First Name:</label>
+          <input id="fname" type="text" /><span id="fnameError" class="error"></span><br /><br />
+          <label for="lname">Last Name:</label>
+          <input id="lname" type="text" /><span id="lnameError" class="error"></span><br /><br />
+          <label for="email">Email:</label>
+          <input id="email" type="email" /><span id="emailError" class="error"></span><br /><br />
+          <label for="phonenumber">Phone No:</label>
+          <input id="phonenumber" type="tel" /><span id="phoneError" class="error"></span><br /><br />
+          <label for="password">Password:</label>
+          <input id="password" type="password" /><span id="passwordError" class="error"></span><br /><br />
+          <label for="sex">Sex:</label>
+          <input type="radio" id="male" name="sex" />
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="sex" />
+          <label for="female">Female</label>
+          <span id="sexError" class="error"></span>
+          <br /><br />
+          <label for="birth">Birth Date:</label>
+          <input id="birth" type="date" /><span id="birthError" class="error"></span><br /><br />
+          <label for="address">Current Address:</label>
+          <input id="address" type="text" /><span id="addressError" class="error"></span><br /><br />
 
-            <input id="submit" type="submit" /><br /><br />
-          </b>
-        </form>
-      </fieldset>
-    </main>
-  </body>
+          <input id="submit" type="submit" /><br /><br />
+        </b>
+      </form>
+    </fieldset>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('signupForm').addEventListener('submit', function(event) {
+        // Prevent form submission
+        event.preventDefault();
+
+        // Clear previous errors
+        const errors = document.querySelectorAll('.error');
+        errors.forEach(error => error.textContent = '');
+
+        // Form fields
+        const fname = document.getElementById('fname').value.trim();
+        const lname = document.getElementById('lname').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phonenumber = document.getElementById('phonenumber').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const male = document.getElementById('male').checked;
+        const female = document.getElementById('female').checked;
+        const birth = document.getElementById('birth').value;
+        const address = document.getElementById('address').value.trim();
+
+        let isValid = true;
+
+        // Validate first name
+        if (fname === '') {
+          document.getElementById('fnameError').textContent = 'First name is required';
+          isValid = false;
+        }
+
+        // Validate last name
+        if (lname === '') {
+          document.getElementById('lnameError').textContent = 'Last name is required';
+          isValid = false;
+        }
+
+        // Validate email
+        if (email === '') {
+          document.getElementById('emailError').textContent = 'Email is required';
+          isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+          document.getElementById('emailError').textContent = 'Email format is invalid';
+          isValid = false;
+        }
+
+        // Validate phone number
+        if (phonenumber === '') {
+          document.getElementById('phoneError').textContent = 'Phone number is required';
+          isValid = false;
+        } else if (!/^\d+$/.test(phonenumber)) {
+          document.getElementById('phoneError').textContent = 'Phone number must be numeric';
+          isValid = false;
+        }
+
+        // Validate password
+        if (password === '') {
+          document.getElementById('passwordError').textContent = 'Password is required';
+          isValid = false;
+        } else if (password.length < 6) {
+          document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long';
+          isValid = false;
+        }
+
+        // Validate sex
+        if (!male && !female) {
+          document.getElementById('sexError').textContent = 'Please select your sex';
+          isValid = false;
+        }
+
+        // Validate birth date
+        if (birth === '') {
+          document.getElementById('birthError').textContent = 'Birth date is required';
+          isValid = false;
+        }
+
+        // Validate address
+        if (address === '') {
+          document.getElementById('addressError').textContent = 'Address is required';
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Submit the form if all validations pass
+          alert('Form submitted successfully');
+          // You can also submit the form data to a server here
+        }
+      });
+    });
+  </script>
+</body>
 </html>
